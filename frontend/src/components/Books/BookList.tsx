@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import type { IBook } from "../../interfaces/IBook";
 import { useGetBooksQuery } from "../../store/api/bookApi";
 import AddBookModal from "../modal/AddBookModal";
 import EditBookModal from "../modal/EditBookModal";
 import DeleteBookModal from "../modal/DeleteBookModal";
 import BorrowBookModal from "../modal/BorrowBookModal";
+import { useNavigate } from "react-router";
+import { StateContext } from "../../App";
+import Spinner from "../Shared/Spinner";
 
 const BookList = () => {
   const { data: booksData, isLoading, error } = useGetBooksQuery(undefined);
-  const [addBookModal, setAddBookModal] = useState<boolean>(false);
+  const { setAddBookModal, addBookModal } = useContext(StateContext);
   const [editBookModal, setEditBookModal] = useState<{
     isOpen: boolean;
     book: null | IBook;
@@ -30,8 +33,10 @@ const BookList = () => {
     isOpen: false,
     book: null,
   });
-
+  const navigate = useNavigate();
   console.log(booksData, isLoading, error);
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <AddBookModal isOpen={addBookModal} setAddBookModal={setAddBookModal} />
@@ -78,12 +83,40 @@ const BookList = () => {
                   key={book._id}
                   className="cursor-pointer border-t border-neutral-700 hover:bg-neutral-800 transition"
                 >
-                  <td className="px-4 py-3">{book.title}</td>
-                  <td className="px-4 py-3">{book.author}</td>
-                  <td className="px-4 py-3">{book.genre}</td>
-                  <td className="px-4 py-3">{book.isbn}</td>
-                  <td className="px-4 py-3">{book.copies}</td>
-                  <td className="px-4 py-3">
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
+                    {book.title}
+                  </td>
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
+                    {book.author}
+                  </td>
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
+                    {book.genre}
+                  </td>
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
+                    {book.isbn}
+                  </td>
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
+                    {book.copies}
+                  </td>
+                  <td
+                    onClick={() => navigate(`/books/${book._id}`)}
+                    className="px-4 py-3"
+                  >
                     <span
                       className={`px-2 py-1 rounded text-sm ${
                         book.available

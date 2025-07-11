@@ -95,7 +95,7 @@ export const updateBook = async (req: Request, res: Response) => {
 
     const currentBook = await Book.findById(bookId);
 
-    body.copies = (currentBook?.copies || 0) + (body?.copies || 0);
+    body.copies = body?.copies || 0; // (currentBook?.copies || 0) +
 
     if (body?.copies > 0) {
       body.available = true;

@@ -83,6 +83,8 @@ export const getAllBorrows = async (_: Request, res: Response) => {
           book: {
             title: "$bookDetails.title",
             isbn: "$bookDetails.isbn",
+            author: "$bookDetails.author",
+            _id: "$bookDetails._id",
           },
           _id: 0,
           totalQuantity: 1,

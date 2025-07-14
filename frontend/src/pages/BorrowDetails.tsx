@@ -5,12 +5,10 @@ import Spinner from "../components/Shared/Spinner";
 const BorrowDetails = () => {
   const { borrowId } = useParams<{ borrowId: string }>();
 
-  console.log(borrowId);
   const { data: borrowDetails, isLoading } = useGetBorrowDetailsQuery(
     borrowId as string
   );
 
-  console.log(borrowDetails);
   if (isLoading) return <Spinner />;
 
   if (!borrowDetails) return <div className="text-white">Book not found.</div>;

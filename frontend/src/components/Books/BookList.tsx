@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import type { IBook } from "../../interfaces/IBook";
 import { useGetBooksQuery } from "../../store/api/bookApi";
 import AddBookModal from "../modal/AddBookModal";
@@ -6,12 +6,18 @@ import EditBookModal from "../modal/EditBookModal";
 import DeleteBookModal from "../modal/DeleteBookModal";
 import BorrowBookModal from "../modal/BorrowBookModal";
 import { useNavigate } from "react-router";
-import { StateContext } from "../../App";
+
 import Spinner from "../Shared/Spinner";
+import { useDispatch, useSelector } from "react-redux";
 
 const BookList = () => {
+  const { addBookModal } = useSelector((state: any) => state.addBookModal);
+  const dispatch = useDispatch();
+  const setAddBookModal = (value: boolean) => {
+    dispatch({ type: "addBookModal/setAddBookModal", payload: value });
+  };
   const { data: booksData, isLoading, error } = useGetBooksQuery(undefined);
-  const { setAddBookModal, addBookModal } = useContext(StateContext);
+
   const [editBookModal, setEditBookModal] = useState<{
     isOpen: boolean;
     book: null | IBook;
@@ -152,12 +158,17 @@ const BookList = () => {
                     </button>
                     <button
                       onClick={() =>
+                        book.available &&
                         setAddBorrowModal({
                           isOpen: true,
                           book: book,
                         })
                       }
-                      className="px-2 py-1 bg-blue-600 hover:bg-blue-500 rounded"
+                      className={`px-2 py-1  ${
+                        book.available
+                          ? "bg-blue-600 hover:bg-blue-500"
+                          : "bg-gray-500 "
+                      } rounded`}
                     >
                       📥
                     </button>

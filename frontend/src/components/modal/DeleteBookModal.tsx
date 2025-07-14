@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDeleteBookMutation } from "../../store/api/bookApi";
 import type { IBook } from "../../interfaces/IBook";
+import { toast } from "react-toastify";
 
 interface DeleteBookModalProps {
   deleteBookModal: { isOpen: boolean; book: IBook | null };
@@ -28,8 +29,10 @@ const DeleteBookModal = ({
       setMessage({ type: "success", text: "Book deleted successfully!" });
       setDeleteBookModal({ isOpen: false, book: null });
       setMessage(null);
+      toast.warn("Book deleted successfully!");
     } catch (error: any) {
       console.error("Error deleting book:", error);
+      toast.error(`Failed to delete book`);
       setMessage({
         type: "error",
         text: `Failed to delete book: ${

@@ -3,12 +3,14 @@ import App from "./App";
 import Books from "./pages/Books";
 import BorrowSummary from "./pages/BorrowSummary";
 import BookDetails from "./pages/BookDetails";
+import BorrowDetails from "./pages/BorrowDetails";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <div>Page Not Found</div>,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/books",
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/borrow-summary",
         element: <BorrowSummary />,
+      },
+      {
+        path: "/borrow-summary/:borrowId",
+        element: <BorrowDetails />,
       },
     ],
   },

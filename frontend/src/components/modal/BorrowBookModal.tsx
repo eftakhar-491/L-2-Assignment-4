@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useBorrowBookMutation } from "../../store/api/bookApi";
 import type { IBook } from "../../interfaces/IBook";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 interface BorrowBookModalProps {
   addBorrowModal: { isOpen: boolean; book: IBook | null };
@@ -18,7 +20,7 @@ const BorrowBookModal = ({
     type: "success" | "error";
     text: string;
   } | null>(null);
-
+  const navigate = useNavigate();
   const [borrowBook, { isLoading }] = useBorrowBookMutation();
 
   useEffect(() => {
@@ -78,14 +80,17 @@ const BorrowBookModal = ({
       setErrors({});
       setMessage(null);
       setAddBorrowModal({ isOpen: false, book: null });
+      toast.success("Book borrowed successfully!");
+      navigate("/borrow-summary");
     } catch (error: any) {
-      console.error("Error borrowing book:", error);
-      setMessage({
-        type: "error",
-        text: `Failed to borrow book: ${
-          error.data?.message || error.message || "Unknown error"
-        }`,
-      });
+      // console.error("Error borrowing book:", error);
+      // setMessage({
+      //   type: "error",
+      //   text: `Failed to borrow book: ${
+      //     error.data?.message || error.message || "Unknown error"
+      //   }`,
+      // });
+      toast.error(`Failed to borrow book`);
     }
   };
 

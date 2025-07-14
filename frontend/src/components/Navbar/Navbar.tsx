@@ -1,13 +1,18 @@
-import { useContext, useState } from "react";
-import { Link } from "react-router";
-import { StateContext } from "../../App";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+
 import AddBookModal from "../modal/AddBookModal";
+import { useSelector, useDispatch } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { setAddBookModal, addBookModal } = useContext(StateContext);
-  console.log(addBookModal);
+  const { addBookModal } = useSelector((state: any) => state.addBookModal);
+  const dispatch = useDispatch();
+  const setAddBookModal = (value: boolean) => {
+    dispatch({ type: "addBookModal/setAddBookModal", payload: value });
+  };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -15,7 +20,12 @@ const Navbar = () => {
 
       <nav className="bg-neutral-900 text-white px-8 py-3 shadow-md">
         <div className=" mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold tracking-wide">📖 Library</h1>
+          <h1
+            onClick={() => navigate("/")}
+            className="text-xl font-semibold tracking-wide"
+          >
+            📖 Library
+          </h1>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex space-x-6 text-sm">

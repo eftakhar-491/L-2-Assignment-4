@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useGetBookDetailsQuery } from "../store/api/bookApi";
+import Spinner from "../components/Shared/Spinner";
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -10,7 +11,7 @@ const BookDetails = () => {
     error,
   } = useGetBookDetailsQuery(bookId as string);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Spinner />;
   if (error) return <div>Error loading book details.</div>;
   if (!book) return <div>Book not found.</div>;
 

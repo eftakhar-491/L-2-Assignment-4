@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useUpdateBookMutation } from "../../store/api/bookApi";
 import type { IBook } from "../../interfaces/IBook";
+import { toast } from "react-toastify";
 
 interface EditBookModalProps {
   editBookModal: { isOpen: boolean; book: IBook | null };
@@ -95,14 +96,15 @@ const EditBookModal: React.FC<EditBookModalProps> = ({
       await updateBook(bookData).unwrap();
       setMessage({ type: "success", text: "Book updated successfully!" });
       setEditBookModal({ isOpen: false, book: null });
+      toast.success("Book updated successfully!");
     } catch (error: any) {
-      console.error("Error updating book:", error);
-      setMessage({
-        type: "error",
-        text: `Failed to update book: ${
-          error.data?.message || error.message || "Unknown error"
-        }`,
-      });
+      toast.error("Failed to update book.");
+      // setMessage({
+      //   type: "error",
+      //   text: `Failed to update book: ${
+      //     error.data?.message || "something went wrong"
+      //   }`,
+      // });
     }
   };
 

@@ -13,8 +13,6 @@ export interface IBook {
   description: string;
   copies: number;
   available: boolean;
-  updateAvailability: (quantity: number) => void;
-
   createdAt?: Date;
   updatedAt?: Date;
 }
